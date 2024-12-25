@@ -7,30 +7,18 @@
 
 StopResisting res(time(NULL));
 
-// enum Colors {
-//     Black = 0,
-//     Brown = 1,
-//     Red   = 2,
-//     Orange = 3,
-//     Yellow = 4,
-//     Green  = 5,
-//     Blue   = 6,
-//     Violet  = 7,
-//     Grey   = 8,
-//     White  = 9,
-// };
-
 unsigned char ansii[] = {234, 52, 196, 202, 11, 10, 20, 201, 243, 255};
 
 int main() {
     std::cout << "=== Resistor Guesser ===" << std::endl << "== MS Windows Edition ==" << std::endl;
 
+    res.setSeries(Series::E96);
     res.newResistor();
 
-    std::printf("Value:\t\t%f\n", res.value);
+    std::printf("Value:\t\t%.2f\n", res.value);
     std::printf("Multiplier:\t%d\n", res.multiplier);
     std::printf("\t\t\t%0.f\n", pow(10, res.multiplier));
-    std::printf("Ohm value:\t%2.f \u2126\n", res.getValue());
+    std::printf("Ohm value:\t%.2f \u2126\n", res.getValue());
 
     std::string valstr = res.getValueStr();
     std::printf("Formatted:\t%s\n", valstr.c_str());
