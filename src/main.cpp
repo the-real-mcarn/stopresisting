@@ -1,7 +1,7 @@
 #include <iostream>
 #include <cmath>
 
-#include "stopresisting/StopResisting.h"
+#include "stopresisting/StopResisting.hpp"
 #include <ctime>
 #include <valarray>
 
@@ -28,14 +28,16 @@ int main() {
     std::printf("\t\t\t%0.f\n", pow(10, res.multiplier));
     std::printf("Ohm value:\t%.2f \u2126\n", res.getValue());
 
-    const std::string valstr = res.getValueStr();
-    std::printf("Formatted:\t%s\n", valstr.c_str());
+    char buffer[16] = {0};
+    res.getValueStr(buffer, sizeof(buffer));
+    std::printf("Formatted:\t%s\n", buffer);
 
-    const std::array<int8_t, 4> colors = res.getColors();
+    int8_t colors[4] = {0};
+    const uint8_t len = res.getColors(colors);
 
     std::cout << "Numbers:\t";
-    for (int i = 0; i< 4; i++)
-        std::printf("%d ", colors.at(i));
+    for (int i = 0; i < len; i++)
+        std::printf("%d ", colors[i]);
     std::cout << std::endl << std::endl;
 
     std::cout << "--[\033[48;5;123m ";

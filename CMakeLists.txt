@@ -5,4 +5,4 @@ set(CMAKE_CXX_STANDARD 20)
 
 add_executable(stopresisting src/main.cpp
         src/stopresisting/StopResisting.cpp
-        src/stopresisting/StopResisting.h)
+        src/stopresisting/StopResisting.hpp)

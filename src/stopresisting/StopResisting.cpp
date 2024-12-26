@@ -2,14 +2,10 @@
 // Created by User on 24-12-2024.
 //
 
-#include "StopResisting.h"
+#include "StopResisting.hpp"
 #include <cmath>
 #include <cstdlib>
 #include <cstdio>
-#include <valarray>
-#include <array>
-#include <iostream>
-#include <ostream>
 
 StopResisting::StopResisting(int seed) {
     std::srand(seed);
@@ -36,8 +32,7 @@ void StopResisting::newResistor() {
     this->value = this->getResistorNr(this->current, numInSet);
 }
 
-std::array<int8_t, 4> StopResisting::getColors() const {
-    std::array<int8_t, 4> colors = {0};
+uint8_t StopResisting::getColors(int8_t *colors, uint8_t length) const {
     float value = this->value;
 
     colors[0] = floor(value / 1.0);
@@ -50,32 +45,33 @@ std::array<int8_t, 4> StopResisting::getColors() const {
     if (this->series[this->current].bands == 3) {
         colors[2] = this->multiplier - 2; // Color is 2 sets off because of comment above
         colors[3] = -1;
+        return 3;
     } else {
         // Sometimes the float will become e.g. 0.01999 instead of 0.02, which will cause the method above to be 1 off
         colors[2] = round(value / 0.01);
         colors[3] = this->multiplier - 2; // Color is 2 sets off because of comment above
+        return 4;
     }
-    return colors;
 }
 
 float StopResisting::getValue() const {
     return this->value * pow(10, this->multiplier);
 }
 
-std::string StopResisting::getValueStr() const {
-    char buffer[16] = {0};
+int StopResisting::getValueStr(char *buffer, uint8_t length) const {
+    int strlen = 0;
 
     if (value == 0) {
-        snprintf(buffer, sizeof(buffer), "0 \u2126");
+        strlen = snprintf(buffer, length, "0 \u2126");
     } else {
         constexpr char units[4] = {' ', 'k', 'M', 'G'};
         const float value = this->getValue();
         const char f = floor(log(value) / log(1000)); // Find if ohms (0), kiloohms (1), megaohms (2), etc.
         const float result = value / static_cast<float>(pow(1000, f)); // Recalculate value keeping in mind unit
-        snprintf(buffer, sizeof(buffer), "%.2f %c\u2126\0", result, units[f]);
+        strlen = snprintf(buffer, length, "%.2f %c\u2126\0", result, units[f]);
     }
 
-    return buffer;
+    return strlen;
 }
 
 
