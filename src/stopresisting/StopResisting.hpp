@@ -71,6 +71,14 @@ public:
     [[nodiscard]] float getResistorNr(Series series, uint8_t number) const;
 
     /**
+     * IEC63, Paris correction for E24 and subsets. 
+     * Note: The Paris correction is not an official thing, I just thought it sounded cool.
+     * @param series Series to use
+     * @param number Number of resistor in series
+     */
+    float getParisCorrection(uint8_t series, uint8_t number) const;
+
+    /**
     * Get a new random resistor
     */
     void newResistor();

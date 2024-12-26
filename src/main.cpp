@@ -13,7 +13,7 @@ int main() {
     std::cout << "=== Resistor Guesser ===" << std::endl << "== MS Windows Edition ==" << std::endl;
 
     // Set current set
-    res.setSeries(Series::E96);
+    res.setSeries(Series::E12);
 
     // Print all resistors in set to check values
     for (int i = 0; i < res.series[res.current].values; ++i) {
