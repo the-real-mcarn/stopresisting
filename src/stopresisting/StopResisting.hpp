@@ -76,7 +76,7 @@ public:
      * @param series Series to use
      * @param number Number of resistor in series
      */
-    float getParisCorrection(uint8_t series, uint8_t number) const;
+    static float getParisCorrection(uint8_t series, uint8_t number);
 
     /**
     * Get a new random resistor
@@ -103,6 +103,14 @@ public:
      * @return Value of current resistor as formatted string
     */
     int getValueStr(char *buffer, uint8_t length = 16) const;
+
+    /**
+    * Process a guess
+    * @param guess, Array of guessed numbers in int8_t
+    * @param len, Length of given array, just give a length of four, if the resistor is only 3 bands the last one will be ignored[
+    * @return Byte, bits in byte correspond to correct (1) or incorrect (0) guess. E.g. only first two guesses are correct, result is 0b00001100
+    */
+    uint8_t guess(int8_t *guess, uint8_t length = 4) const;
 };
 
 #endif //STOPRESISTING_H
