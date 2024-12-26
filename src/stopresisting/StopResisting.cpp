@@ -16,10 +16,33 @@ void StopResisting::setSeries(Series series) {
 }
 
 float StopResisting::getResistorNr(const Series series, const uint8_t number) const {
-    const float result = pow(10, (static_cast<float>(number) / this->series[series].values));
-    // TODO: queee? It's off sometimes and I don't know why
+    float result = pow(10, (static_cast<float>(number) / this->series[series].values));
+    result += this->getParisCorrection(this->series[series].values, number);
     const uint8_t rounding = pow(10, this->series[series].precision - 1);
     return std::round(result * rounding) / rounding;
+}
+
+float StopResisting::getParisCorrection(uint8_t series, uint8_t number) const {
+    float result;
+    
+    // may the resistor God help you if you use E3;
+    if(series == 24 ||  series == 12 || series == 6  || series == 3 ) { 
+        // if n is not an element of E24, correct it to be part of the set
+        const int n24 = number * (24 / this->series[series].values);
+        
+        switch(n24) {
+            case 10 ... 16:
+                result = 0.1;
+                break;
+            case 22:
+                result = -0.1;
+                break;
+            default:
+                break;
+        }
+    }
+
+    return result;
 }
 
 void StopResisting::newResistor() {
