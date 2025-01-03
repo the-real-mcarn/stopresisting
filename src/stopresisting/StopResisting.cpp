@@ -89,7 +89,7 @@ int StopResisting::getValueStr(char *buffer, uint8_t length) const {
         const float value = this->getValue();
         const char f = floor(log(value) / log(1000)); // Find if ohms (0), kiloohms (1), megaohms (2), etc.
         const float result = value / static_cast<float>(pow(1000, f)); // Recalculate value keeping in mind unit
-        strlen = snprintf(buffer, length, "%.2f %c\u2126\0", result, units[f]);
+        strlen = snprintf(buffer, length, "%.2f %cOhm\0", result, units[f]);
     }
 
     return strlen;
